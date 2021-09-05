@@ -5,5 +5,6 @@ export default {
   edit: require('./assets/img/edit.png'),
   delete: require('./assets/img/delete.png'),
   settingsGear: require('./assets/img/settingsGear.png'),
+  whiteCross: require('./assets/img/whiteCross.png'),
 
 };

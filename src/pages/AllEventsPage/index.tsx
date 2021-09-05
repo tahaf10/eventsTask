@@ -4,6 +4,7 @@ import {
   Text,
   TouchableOpacity,
   FlatList,
+  SafeAreaView
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import moment from 'moment';
@@ -14,6 +15,7 @@ import colors from '../../common/colors';
 import styles from './styles';
 import Calendar from '../../common/components/Calendar';
 import EventCard from '../../common/components/EventCard';
+import { Header } from '../../common/components/Widgets/HeaderWidgets'
 import { getColor } from '../../common/helper';
 
 import type { AppNavigatorParamsList } from '../../routes';
@@ -105,7 +107,7 @@ class AllEvents extends Component<AllEventsProps, AllEventsState> {
     return (
       <EventCard
         item={item}
-        toggleMore={() => {}}
+        toggleMore={() => { }}
         //toggleCalendarStatus={this.toggleSelectedCalendarStatus}
         color={getColor(index)}
       />
@@ -114,17 +116,18 @@ class AllEvents extends Component<AllEventsProps, AllEventsState> {
   keyExtractor = (item, index) => index.toString();
 
   renderEvents = () => {
-    const { events } = this.state;
+    const { events, selectedTab } = this.state;
     return (
-    <FlatList
-      data={events}
-      //extraData={this.state}
-      //refreshing={refreshing}
-      //ListEmptyComponent={this.renderEmptyCalendars}
-      //onRefresh={this.getAllCalendars}
-      keyExtractor={this.keyExtractor}
-      renderItem={this.renderEvent}
-    />
+      <FlatList
+        data={events}
+        //extraData={this.state}
+        //refreshing={refreshing}
+        //ListEmptyComponent={this.renderEmptyCalendars}
+        //onRefresh={this.getAllCalendars}
+        ListHeaderComponent={selectedTab === 1 ? this.renderCalendarEvents : null}
+        keyExtractor={this.keyExtractor}
+        renderItem={this.renderEvent}
+      />
     )
   }
 
@@ -164,22 +167,45 @@ class AllEvents extends Component<AllEventsProps, AllEventsState> {
   render() {
     const { selectedTab } = this.state;
     return (
+
       <View style={{ flex: 1, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
+        <Header title='Dynamic Text' leftIcon={true} />
 
-        <SmallButton
-          //icon={images.addCalendar}
-          color={colors.tealBlue}
-          onPress={this.onAddClick}
-        >
-          <Text style={styles.buttonText}>Add</Text>
-        </SmallButton>
+        <View style={{ flexDirection: 'row', marginVertical: 10, marginHorizontal: 10 }}>
 
+          <View style={{ flex: 1, justifyContent: 'center' }}>
+            <Text style={{ textAlign: 'left' }}>New Event :</Text>
+          </View>
+
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <SmallButton
+              //icon={images.addCalendar}
+              color={colors.tealBlue}
+              onPress={this.onAddClick}
+            >
+              <Text style={styles.buttonText}>Add</Text>
+            </SmallButton>
+
+            <SmallButton
+              //icon={images.addCalendar}
+              color={colors.tealBlue}
+              onPress={this.onAddClick}
+            >
+
+              <Text style={styles.buttonText}>Add</Text>
+            </SmallButton>
+
+          </View>
+
+        </View>
+
+        <View style={styles.flexOne}>
         {this.renderEvents()}
-
-
-        {selectedTab === 0 ? this.renderAllEvents() : this.renderCalendarEvents()}
+        </View>
+        {/* {selectedTab === 0 ? this.renderAllEvents() : this.renderCalendarEvents()} */}
 
         {this.renderTabs()}
+
 
 
 

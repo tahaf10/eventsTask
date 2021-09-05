@@ -47,6 +47,9 @@ export const styles = StyleSheet.create({
     ...font(16, 'Semibold'),
     color: colors.white
   },
+  flexOne: {
+    flex: 1
+  }
 })
 
 export default styles;
