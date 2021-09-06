@@ -38,21 +38,13 @@ const HalfSelect = (props : Props) => {
             value={value}
             autoCapitalize="none"
             autoCorrect={false}
-            // enablesReturnKeyAutomatically={returnKey}
-            // clearTextOnFocus={clearTextOnFocus}
-            // secureTextEntry={secureTextEntry}
-            // onFocus={onFocus}
             editable={false}
-            // onChangeText={onChange}
-            // onSubmitEditing={onSubmit}
-            // returnKeyType={returnKeyType}
             label={label}
             textColor={'rgba(46, 46, 46, 0.6)'}
             tintColor={colors.tealBlue}
             labelTextStyle={styles.labelStyle}
             titleTextStyle={styles.labelStyle}
             containerStyle={styles.containerHeight}
-            //error={error}
           />
           <View style={styles.iconContainer}>
             <Image source={images.group} style={styles.badgeIcon} />

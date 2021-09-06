@@ -98,13 +98,6 @@ export default class CalendarCard extends Component<CalendarCardProps, CalendarC
         <View style={styles.infoContainer}>
           <Text style={styles.infoText}>{toTime.toLocaleTimeString()}</Text>
         </View>
-        {/* {!team ? null : this.renderInfo(team.team_name, images.personsCalendar, item)}
-        {this.renderInfo(duration + ' mins', images.clockCalendar, item)}
-        {this.renderInfo(`${moment(start_date).format('MM-DD=YYYY')} to ${moment(end_date).format('MM-DD-YYYY')}`, images.calendarGrey, item)}
-        {!meetingType ? null : this.renderInfo(meetingType.type, meetingType.avatar, item)}
-        {this.renderAction('Schedule Appointments', images.calendarTeal, item)}
-        <View style={styles.separatorLine} />
-        {status === 'A' ? this.renderAction('Share', images.shareTeal, item) : this.renderActivate(item)} */}
         {this.renderModal()}
       </View>
     );

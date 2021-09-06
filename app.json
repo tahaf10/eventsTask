@@ -1,0 +1,15 @@
+{
+  "expo": {
+   "name": "Incomplete Events",
+   "version": "1.0.0",
+   "slug": "your-app-slug",
+   "ios": {
+     "bundleIdentifier": "com.events",
+     "buildNumber": "1.0.0"
+   },
+   "android": {
+     "package": "com.events",
+     "versionCode": 1
+   }
+  }
+}

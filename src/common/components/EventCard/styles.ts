@@ -36,45 +36,10 @@ const PageStyle = StyleSheet.create({
     color: colors.titleTextColor,
     paddingLeft: 10,
   },
-  // separatorLine: {
-  //   marginTop: 15,
-  //   marginBottom: 5,
-  //   borderTopWidth: 0.5,
-  //   borderTopColor: colors.silver,
-  //   width: '100%'
-  // },
-  // actionContainer: {
-  //   flexDirection: 'row',
-  //   marginTop: 10,
-  // },
-  // activateContainer: {
-  //   opacity: 1,
-  //   width: '100%',
-  //   flexDirection: 'row',
-  //   marginTop: 10,
-  //   alignItems: 'center',
-  //   justifyContent: 'space-around'
-  // },
-  // actionText: {
-  //   ...font(16, 'Semibold'),
-  //   color: colors.tealBlue,
-  //   paddingLeft: 10,
-  // },
   moreOptions: {
     alignItems: 'center',
     justifyContent: 'center'
   },
-  // disabledView: {
-  //   opacity: 0.5
-  // },
-  // activateButtonText: {
-  //   ...font(16, 'Semibold'),
-  //   color: colors.white
-  // },
-  // activateText: {
-  //   ...font(16),
-  //   color: colors.black
-  // },
   settingIcon: {
     marginRight: getWidthPercentage(1)
   }

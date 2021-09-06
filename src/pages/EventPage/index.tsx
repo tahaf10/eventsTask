@@ -4,7 +4,7 @@ import {
   Text,
   ScrollView,
   TextInput,
-
+  Platform
 } from 'react-native';
 import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -106,13 +106,13 @@ function Event(props: AllEventsProps) {
     )
   }
 
-  const onTimeChange = (event, date) => {
-    console.log(date);
+  const onTimeChange = (event, value) => {
+    console.log(value);
     if (timePickerFlag === 'FROM') {
-      setFromTime(date)
+      setFromTime(value)
     }
     else {
-      setToTime(date)
+      setToTime(value)
     }
   }
 
@@ -121,7 +121,15 @@ function Event(props: AllEventsProps) {
       <TimePickerModal
         modalVisible={showTimeModal}
         close={toggle2}
-        date={timePickerFlag === 'FROM' ? fromTime : toTime}
+        onClose={date => {
+          if (date && Platform.OS !== 'iOS') {
+            setShowTimeModal(false);
+            onTimeChange('random', date)
+          } else {
+            setShowTimeModal(false);
+          }
+        }}
+        date={timePickerFlag === 'FROM' ? fromTime : toTime }
         onChange={onTimeChange}
       />
     )
@@ -192,15 +200,7 @@ function Event(props: AllEventsProps) {
 
             <View style={styles.optionContainer}>
               <Text style={styles.optionTitle}>Date Picker</Text>
-              <TextInput
-                style={{ color: colors.black }}
-                value={eventDescription}
-                placeholder={'Event Description'}
-                placeholderTextColor={colors.gray}
-                onChangeText={setEventDescription}
-                //style={styles.textArea}
-                multiline={true}
-              />
+              
               <FullSelect
                 value={moment(date).format('DD-MM-YYYY')}
                 label='Date'

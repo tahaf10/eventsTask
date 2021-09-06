@@ -277,12 +277,12 @@ class AllEvents extends Component<AllEventsProps, AllEventsState> {
     return (
 
       <View style={styles.mainContainer}>
-        <Header title='Dynamic Text' leftIcon={false} />
+        <Header title='All Events' leftIcon={false} />
 
         <View style={styles.topRowView}>
 
           <View style={styles.topRowLeftHalf}>
-            <Text style={{ textAlign: 'left' }}>New Event :</Text>
+            <Text style={{ textAlign: 'left' }}>Hello There!</Text>
           </View>
 
           <View style={styles.topRowEventButtons}>

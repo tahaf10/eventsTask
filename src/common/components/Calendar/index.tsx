@@ -62,7 +62,6 @@
    }
  
    render() {
-     //const { markedDate, dayPressed, onMonthChange, theme } = this.props;
      const { 
        dateString,
        dayPressed
