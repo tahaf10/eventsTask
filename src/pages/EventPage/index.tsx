@@ -3,7 +3,8 @@ import {
   View,
   Text,
   ScrollView,
-  TextInput
+  TextInput,
+  Platform
 } from 'react-native';
 import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -72,13 +73,13 @@ function Event(props) {
   //   )
   // }
 
-  const onTimeChange = (event, date) => {
-    console.log(date);
+  const onTimeChange = (event, value) => {
+    console.log(value);
     if (timePickerFlag === 'FROM') {
-      setFromTime(date)
+      setFromTime(value)
     }
     else {
-      setToTime(date)
+      setToTime(value)
     }
   }
 
@@ -87,6 +88,14 @@ function Event(props) {
       <TimePickerModal
         modalVisible={showTimeModal}
         close={toggle2}
+        onClose={date => {
+          if (date && Platform.OS !== 'iOS') {
+            setShowTimeModal(false);
+            onTimeChange('random', date)
+          } else {
+            setShowTimeModal(false);
+          }
+        }}
         date={timePickerFlag === 'FROM' ? fromTime : toTime }
         onChange={onTimeChange}
       />

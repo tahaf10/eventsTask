@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
   GestureResponderEvent,
   Image,
-  ImageSourcePropType
+  ImageSourcePropType,
+  Platform
 } from 'react-native';
 import Modal from 'react-native-modal';
 
@@ -23,7 +24,8 @@ type Props = {
   date: Date,
   title?: string,
   select?: () => void,
-  onChange: (event:any, date:any) => void
+  onChange: (event: any, value: any) => void,
+  onClose: (value: any) => void
 }
 
 export const DateModal = (props: Props) => {
@@ -62,8 +64,11 @@ export const TimePickerModal = (props: Props) => {
     close,
     date,
     title = 'Select Time',
-    onChange
-  } = props;  return (
+    onChange,
+    onClose
+  } = props;
+
+  return (
     <Modal style={dms.container} isVisible={modalVisible}>
       <View style={dms.innerContainer}>
         <View style={dms.doneContainer}>
@@ -76,7 +81,14 @@ export const TimePickerModal = (props: Props) => {
           mode="time"
           value={date}
           is24Hour={false}
-          onChange={onChange}
+          onChange={(e, d) => {
+            if (Platform.OS === 'ios') {
+              onChange(e,d);
+            } else {
+          onClose(d);
+            }
+         }}
+
           style={dms.pickerStyle}
         />
       </View>
@@ -98,7 +110,7 @@ type MoreOptionsProps = {
   modalVisible: boolean
 }
 
-export const MoreOptionsModal = (props : MoreOptionsProps) => {
+export const MoreOptionsModal = (props: MoreOptionsProps) => {
   const {
     title,
     close,
