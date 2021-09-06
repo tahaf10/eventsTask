@@ -10,7 +10,8 @@
  import colors from '../../../common/colors';
 
  interface Props {
-   dateString: string
+   dateString: string,
+   dayPressed: (Date) => void
  }
  
  export default class CalendarModule extends Component <Props>{
@@ -63,8 +64,11 @@
    render() {
      //const { markedDate, dayPressed, onMonthChange, theme } = this.props;
      const { 
-       dateString 
+       dateString,
+       dayPressed
       } = this.props; 
+      console.log('Inside Render');
+      console.log(dateString);
      return (
        <Calendar
          // Collection of dates that have to be marked. Default = {}
@@ -102,7 +106,7 @@
           [dateString]: { selected: true, selectedColor: colors.tealBlue }
          }}
          onDayPress={day => {
-           //dayPressed(day);
+           dayPressed(day);
          }}
          // onMonthChange={month => {
          //   onMonthChange(month);

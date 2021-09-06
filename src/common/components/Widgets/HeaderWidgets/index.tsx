@@ -15,19 +15,15 @@ import images from '../../../images';
 
 export const Header = (props) => {
 
-  const { leftIcon } = props;
+  const { leftIcon, onCrossPress } = props;
 
   return (
 
     <View style={styles.header}>
       <SafeAreaView style={styles.safeArea}>
-      {leftIcon ? (<View style={styles.leftIcon}>
+      {leftIcon ? (<TouchableOpacity onPress={onCrossPress} style={styles.leftIcon}>
         <Image source={images.whiteCross}/>
-      </View>) : 
-      
-      (<View style={styles.withoutLeftIcon}>
-      </View>)
-      }
+      </TouchableOpacity>) : null }
 
       <View style={styles.titleContainer}>
       <Text style={styles.text}>{props.title}</Text>

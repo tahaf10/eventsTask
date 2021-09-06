@@ -4,7 +4,7 @@ import {
   Text,
   ScrollView,
   TextInput,
-  
+
 } from 'react-native';
 import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -18,18 +18,25 @@ import {
   MoreOptionsModal
 } from '../../common/components/Widgets/ModalWidgets'
 import {
-  LargeButton 
+  LargeButton
 } from '../../common/components/Widgets/ButtonWidgets'
 import {
   Header
 } from '../../common/components/Widgets/HeaderWidgets'
 import colors from '../../common/colors';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
+import type { AppNavigatorParamsList } from '../../routes';
+import { NavigationRouteContext } from '@react-navigation/core';
 
 
 export type EventScreenParams = undefined;
 
-function Event(props) {
+interface AllEventsProps {
+  navigation: NativeStackScreenProps<AppNavigatorParamsList, "AllEventsPage">
+};
+
+function Event(props: AllEventsProps) {
 
   const eventTypes = [
     { id: 0, key: 'Event', icon: null },
@@ -63,22 +70,41 @@ function Event(props) {
     setShowTimeModal(!showTimeModal);
   }
 
+  const onSave = () => {
+    const { navigation } = props;
+    const event = {
+      id: 0,
+      name: eventName,
+      description: eventDescription,
+      date: date,
+      fromTime: date,
+      toTime: date,
+      type: selectedEventType
+    }
+    navigation.navigate('AllEventsPage', {
+      event: event
+    })
+  }
+
+  const onBack = () => {
+    const { navigation } = props;
+    navigation.goBack();
+  }
   const setEventType = (key) => {
     setSelectedEventType(key);
     toggleTypesModal();
   }
 
-  // const renderDatePicker = () => {
-  //   return (
-  //     <DateModal
-  //       date={date}
-  //       close={toggleDatePickerModal}
-
-
-  //     //onChange={(event, date) => { console.log(event, date) }}
-  //     />
-  //   )
-  // }
+  const renderDatePicker = () => {
+    return (
+      <DateModal
+        modalVisible={showDateModal}
+        date={date}
+        close={toggleDatePickerModal}
+        onChange={(event, date) => setDate(date)}
+      />
+    )
+  }
 
   const onTimeChange = (event, date) => {
     console.log(date);
@@ -95,7 +121,7 @@ function Event(props) {
       <TimePickerModal
         modalVisible={showTimeModal}
         close={toggle2}
-        date={timePickerFlag === 'FROM' ? fromTime : toTime }
+        date={timePickerFlag === 'FROM' ? fromTime : toTime}
         onChange={onTimeChange}
       />
     )
@@ -107,7 +133,7 @@ function Event(props) {
         select={setEventType}
         moreOptions={eventTypes}
         modalVisible={typesModal}
-        //close={toggleTypesModal}
+        close={toggleTypesModal}
         title='Event Type'
       />
     )
@@ -115,101 +141,106 @@ function Event(props) {
 
   return (
 
-    <View style={{flex:1}}>
+    <View style={{ flex: 1 }}>
 
-      <Header title='New Event' leftIcon={true}/>
-        <ScrollView
-      style={styles.background}
-      showsVerticalScrollIndicator={false}
-    >
-      <View style={styles.container}>
-        <View style={styles.innerContainer}>
-          <Text style={styles.headerText}>Event Information</Text>
-          <View style={styles.optionContainer}>
-            <Text style={styles.optionTitle}>Event Name</Text>
-            <TextInput
-            style={{color:colors.black}}
-              value={eventName}
-              placeholder={'Event Name'}
-              placeholderTextColor={colors.gray}
-              onChangeText={setEventName}
-              //style={styles.textArea}
-              multiline={false}
-            />
-          </View>
-
-          <View style={styles.optionContainer}>
-            <Text style={styles.optionTitle}>Event Description</Text>
-            <TextInput
-            style={{color:colors.black}}
-              value={eventDescription}
-              placeholder={'Event Description'}
-              placeholderTextColor={colors.gray}
-              onChangeText={setEventDescription}
-              //style={styles.textArea}
-              multiline={true}
-            />
-          </View>
-
-          <View style={styles.optionContainer}>
-            {/* <Text style={styles.optionTitle}>Event Type</Text> */}
-            <Dropdown
-              label='Type'
-              value={selectedEventType}
-              onPress={toggleTypesModal}
-            />
-          </View>
-
-          <View style={styles.optionContainer}>
-            <Text style={styles.optionTitle}>Date Picker</Text>
-            <TextInput
-            style={{color:colors.black}}
-              value={eventDescription}
-              placeholder={'Event Description'}
-              placeholderTextColor={colors.gray}
-              onChangeText={setEventDescription}
-              //style={styles.textArea}
-              multiline={true}
-            />
-            <FullSelect
-                value={moment(date).format('DD-MM-YYYY')}
-                label='Date'
-                onPress={() => {}}
-              />
-          </View>
-
-          <View style={styles.optionContainer}>
-            <Text style={styles.optionTitle}>Time Picker</Text>
-
-            <View style={styles.optionsRow}>
-              <HalfSelect
-                value={moment(fromTime).format('h mm a')}
-                label='From'
-                onPress={() => toggleTimePickerModal('FROM')}
-              />
-
-              <HalfSelect
-                value={moment(toTime).format('h mm a')}
-                label='To'
-                onPress={() => toggleTimePickerModal('TO')}
+      <Header
+        title='New Event'
+        leftIcon={true}
+        onCrossPress={onBack}
+      />
+      <ScrollView
+        style={styles.background}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.container}>
+          <View style={styles.innerContainer}>
+            <Text style={styles.headerText}>Event Information</Text>
+            <View style={styles.optionContainer}>
+              <Text style={styles.optionTitle}>Event Name</Text>
+              <TextInput
+                style={{ color: colors.black }}
+                value={eventName}
+                placeholder={'Event Name'}
+                placeholderTextColor={colors.gray}
+                onChangeText={setEventName}
+                //style={styles.textArea}
+                multiline={false}
               />
             </View>
-          </View>
 
-          <View style={styles.centerAlignMarginVert}>
-          <LargeButton
-              //icon={images.addCalendar}
-              color={colors.tealBlue}
-              onPress={()=>{}}
-          >
-              <Text>Next</Text>
-            </LargeButton>
+            <View style={styles.optionContainer}>
+              <Text style={styles.optionTitle}>Event Description</Text>
+              <TextInput
+                style={{ color: colors.black }}
+                value={eventDescription}
+                placeholder={'Event Description'}
+                placeholderTextColor={colors.gray}
+                onChangeText={setEventDescription}
+                //style={styles.textArea}
+                multiline={true}
+              />
+            </View>
+
+            <View style={styles.optionContainer}>
+              {/* <Text style={styles.optionTitle}>Event Type</Text> */}
+              <Dropdown
+                label='Type'
+                value={selectedEventType}
+                onPress={toggleTypesModal}
+              />
+            </View>
+
+            <View style={styles.optionContainer}>
+              <Text style={styles.optionTitle}>Date Picker</Text>
+              <TextInput
+                style={{ color: colors.black }}
+                value={eventDescription}
+                placeholder={'Event Description'}
+                placeholderTextColor={colors.gray}
+                onChangeText={setEventDescription}
+                //style={styles.textArea}
+                multiline={true}
+              />
+              <FullSelect
+                value={moment(date).format('DD-MM-YYYY')}
+                label='Date'
+                onPress={toggleDatePickerModal}
+              />
+            </View>
+
+            <View style={styles.optionContainer}>
+              <Text style={styles.optionTitle}>Time Picker</Text>
+
+              <View style={styles.optionsRow}>
+                <HalfSelect
+                  value={moment(fromTime).format('h mm a')}
+                  label='From'
+                  onPress={() => toggleTimePickerModal('FROM')}
+                />
+
+                <HalfSelect
+                  value={moment(toTime).format('h mm a')}
+                  label='To'
+                  onPress={() => toggleTimePickerModal('TO')}
+                />
+              </View>
+            </View>
+
+            <View style={styles.centerAlignMarginVert}>
+              <LargeButton
+                //icon={images.addCalendar}
+                color={colors.tealBlue}
+                onPress={onSave}
+              >
+                <Text>Next</Text>
+              </LargeButton>
+            </View>
+          </View>
         </View>
-        </View>
-      </View>
-      {renderTimePicker()}
-      {renderEventTypeModal()}
-    </ScrollView>
+        {renderTimePicker()}
+        {renderEventTypeModal()}
+        {renderDatePicker()}
+      </ScrollView>
     </View>
 
   )

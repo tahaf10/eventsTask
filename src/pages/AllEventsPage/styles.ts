@@ -76,6 +76,27 @@ export const styles = StyleSheet.create({
   },
   flexOne: {
     flex: 1
+  },
+  emptyCalendarContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: getHeightPercentage(15)
+  },
+  noCalendarText: {
+    ...font(16),
+    color: colors.black,
+    marginLeft: 40,
+    marginRight: 40
+  },
+  noCalendarAlt: {
+    ...font(16),
+    color: colors.tealBlue
+  },
+  dataText: {
+    ...font(16),
+    color: colors.brownGray,
+    margin: 15
   }
 })
 

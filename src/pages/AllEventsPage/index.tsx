@@ -4,7 +4,8 @@ import {
   Text,
   TouchableOpacity,
   FlatList,
-  ImageSourcePropType
+  ImageSourcePropType,
+  Image
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import moment from 'moment';
@@ -19,7 +20,12 @@ import styles from './styles';
 import Calendar from '../../common/components/Calendar';
 import EventCard from '../../common/components/EventCard';
 import { Header } from '../../common/components/Widgets/HeaderWidgets'
-import { getColor } from '../../common/helper';
+import {
+  getColor,
+  //compareDates,
+  getDayName,
+  getMonth
+} from '../../common/helper';
 import images from '../../common/images';
 
 import type { AppNavigatorParamsList } from '../../routes';
@@ -31,7 +37,8 @@ type Event = {
   date: Date,
   fromTime: Date,
   toTime: Date,
-  document?: string
+  document?: string,
+  type: string
 }
 
 type Options = {
@@ -46,7 +53,8 @@ export type AllEventsScreenParams = {
 
 
 interface AllEventsProps {
-  navigation: NativeStackScreenProps<AppNavigatorParamsList, "AllEventsPage">
+  navigation: NativeStackScreenProps<AppNavigatorParamsList, "AllEventsPage">,
+  route: NativeStackScreenProps<AppNavigatorParamsList, "AllEventsPage">
 };
 
 interface AllEventsState {
@@ -54,32 +62,46 @@ interface AllEventsState {
   events: Event[],
   showFilter: boolean,
   filterOptions: Options[],
-  selectedFilter: string
+  selectedFilter: string,
+  markedDate: string,
+  selectedDate: {
+    year: number,
+    month: number,
+    day: number,
+    timestamp: number,
+    dateString: string
+  }
 };
 class AllEvents extends Component<AllEventsProps, AllEventsState> {
 
   constructor(props) {
     super(props);
+    const todaysDate = moment().format('YYYY-MM-DD');
+    const year = parseInt(todaysDate.slice(0, 4));
+    const month = parseInt(todaysDate.slice(5, 7));
+    const day = parseInt(todaysDate.slice(8, 10));
+   
     this.state = {
       selectedTab: 0,
-      events: [{
-        id: 1,
-        name: "string",
-        description: "string",
-        date: new Date(),
-        fromTime: new Date(),
-        toTime: new Date(),
-        document: "string"
-      },
-      {
-        id: 2,
-        name: "string",
-        description: "string",
-        date: new Date(),
-        fromTime: new Date(),
-        toTime: new Date(),
-        document: "string"
-      }
+      events: [
+        //   {
+        //   id: 1,
+        //   name: "string",
+        //   description: "string",
+        //   date: new Date(),
+        //   fromTime: new Date(),
+        //   toTime: new Date(),
+        //   document: "string"
+        // },
+        // {
+        //   id: 2,
+        //   name: "string",
+        //   description: "string",
+        //   date: new Date(),
+        //   fromTime: new Date(),
+        //   toTime: new Date(),
+        //   document: "string"
+        // }
       ],
       filterOptions: [
         { id: 0, key: 'All', icon: null },
@@ -88,21 +110,39 @@ class AllEvents extends Component<AllEventsProps, AllEventsState> {
         { id: 3, key: 'Task', icon: null },
 
       ],
-    showFilter: false,
-    selectedFilter: 'All'
+      showFilter: false,
+      selectedFilter: 'All',
+      markedDate: moment().format('YYYY-MM-DD'),
+      selectedDate: {
+        day: day,
+        year: year,
+        month: month,
+        timestamp: 165432,
+        dateString: todaysDate
+      }
     }
   }
 
   componentDidMount() {
   }
-
+  componentDidUpdate(previousProps, previousState) {
+    if (previousProps.route !== this.props.route) {
+      const { params } = this.props.route;
+      const { events } = this.state;
+      if (params) {
+        this.setState({
+          events: events.concat(params.event)
+        })
+      }
+    }
+  }
   toggleShowFilter = () => {
     const { showFilter } = this.state;
     this.setState({ showFilter: !showFilter });
   }
 
   onSelectFilter = (value) => {
-    this.setState({ selectedFilter: value});
+    this.setState({ selectedFilter: value });
     this.toggleShowFilter();
   }
 
@@ -123,16 +163,39 @@ class AllEvents extends Component<AllEventsProps, AllEventsState> {
     }
   };
 
-  renderCalendarEvents = () => {
+  dayPressed = (day) => {
+    console.log(day);
+    this.setState({ 
+      markedDate: day.dateString,
+      selectedDate: day
+     });
+    // const compareWithFrom = compareDates(day.dateString, fromDate);
+    // const compareWithTo = compareDates(day.dateString, toDate);
+  };
 
+  renderCalendarEvents = () => {
+    const { markedDate, selectedDate } = this.state;
+
+    const { dateString } = selectedDate;
     return (
       <View style={styles.container}>
         <Calendar
-          dateString={moment().format('YYYY-MM-DD')}
+          dateString={markedDate}
+          dayPressed={day => this.dayPressed(day)}
         />
+        <Text style={styles.dataText}>{getDayName(dateString)}, {selectedDate.day} {getMonth(selectedDate.month)} {selectedDate.year}</Text>
       </View>
     )
   }
+
+  renderEmptyEvents = () => {
+    return (
+      <View style={styles.emptyCalendarContainer}>
+        <Image source={images.noCalendar} />
+        <Text style={styles.noCalendarText}>There are currently no events. <Text style={styles.noCalendarAlt} onPress={this.onAddClick}>Would you like to add a new event?</Text></Text>
+      </View>
+    );
+  };
 
   renderEvent = event => {
     const { item, index } = event;
@@ -148,13 +211,13 @@ class AllEvents extends Component<AllEventsProps, AllEventsState> {
   keyExtractor = (item, index) => index.toString();
 
   renderEvents = () => {
-    const { events, selectedTab } = this.state;
+    const { events, selectedTab, selectedFilter, markedDate } = this.state;
     return (
       <FlatList
-        data={events}
-        //extraData={this.state}
+        data={selectedTab === 0 ? (selectedFilter !== 'All' ? events.filter(event => event.type === selectedFilter) : events) : events.filter(event => moment(event.date).format('YYYY-MM-DD') === markedDate )}
+        extraData={this.state}
         //refreshing={refreshing}
-        //ListEmptyComponent={this.renderEmptyCalendars}
+        ListEmptyComponent={this.renderEmptyEvents}
         //onRefresh={this.getAllCalendars}
         ListHeaderComponent={selectedTab === 1 ? this.renderCalendarEvents : null}
         keyExtractor={this.keyExtractor}
@@ -214,7 +277,7 @@ class AllEvents extends Component<AllEventsProps, AllEventsState> {
     return (
 
       <View style={styles.mainContainer}>
-        <Header title='Dynamic Text' leftIcon={true} />
+        <Header title='Dynamic Text' leftIcon={false} />
 
         <View style={styles.topRowView}>
 
@@ -223,14 +286,14 @@ class AllEvents extends Component<AllEventsProps, AllEventsState> {
           </View>
 
           <View style={styles.topRowEventButtons}>
-            <SmallButton
+           {selectedTab === 0 && <SmallButton
               icon={images.filter}
               color={colors.white}
               onPress={this.toggleShowFilter}
               showBorder={true}
             >
               <Text style={styles.whiteButtonText}>Filter</Text>
-            </SmallButton>
+            </SmallButton>}
 
             <SmallButton
               icon={images.add}

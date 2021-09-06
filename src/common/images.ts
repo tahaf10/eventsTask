@@ -8,5 +8,6 @@ export default {
   whiteCross: require('./assets/img/whiteCross.png'),
   add: require('./assets/img/add.png'),
   filter: require('./assets/img/filter.png'),
+  noCalendar: require('./assets/img/noCalendar.png'),
 
 };
