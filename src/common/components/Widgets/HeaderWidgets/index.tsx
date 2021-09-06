@@ -7,7 +7,8 @@ import {
   View,
   Text,
   StyleSheet,
-  Dimensions
+  Dimensions,
+  Platform
 } from 'react-native';
 import styles from './styles';
 import images from '../../../images';
@@ -21,7 +22,7 @@ export const Header = (props) => {
   return (
 
     <View style={styles.header}>
-      <SafeAreaView style={{flexDirection:'row'}}>
+      <SafeAreaView style={{flexDirection:'row',  paddingTop:Platform.OS === 'android' ? 30 : 0}}>
       {leftIcon ? (<View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
         <Image source={images.whiteCross}/>
       </View>) : 
@@ -30,7 +31,7 @@ export const Header = (props) => {
       </View>)
       }
 
-      <View style={{flex:5,justifyContent:'center',alignItems:'center'}}>
+      <View style={{flex:5,justifyContent:'flex-end',alignItems:'center'}}>
       <Text style={styles.text}>{props.title}</Text>
       </View>
 

@@ -4,19 +4,23 @@ import {
   Text,
   TouchableOpacity,
   FlatList,
-  SafeAreaView
+  ImageSourcePropType
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import moment from 'moment';
 import {
   SmallButton
 } from '../../common/components/Widgets/ButtonWidgets'
+import {
+  MoreOptionsModal
+} from '../../common/components/Widgets/ModalWidgets';
 import colors from '../../common/colors';
 import styles from './styles';
 import Calendar from '../../common/components/Calendar';
 import EventCard from '../../common/components/EventCard';
 import { Header } from '../../common/components/Widgets/HeaderWidgets'
 import { getColor } from '../../common/helper';
+import images from '../../common/images';
 
 import type { AppNavigatorParamsList } from '../../routes';
 
@@ -30,6 +34,12 @@ type Event = {
   document?: string
 }
 
+type Options = {
+  id: number,
+  key: string,
+  icon?: ImageSourcePropType
+}
+
 export type AllEventsScreenParams = {
   event: Event
 };
@@ -41,7 +51,10 @@ interface AllEventsProps {
 
 interface AllEventsState {
   selectedTab: number,
-  events: Event[]
+  events: Event[],
+  showFilter: boolean,
+  filterOptions: Options[],
+  selectedFilter: string
 };
 class AllEvents extends Component<AllEventsProps, AllEventsState> {
 
@@ -67,13 +80,32 @@ class AllEvents extends Component<AllEventsProps, AllEventsState> {
         toTime: new Date(),
         document: "string"
       }
-      ]
+      ],
+      filterOptions: [
+        { id: 0, key: 'All', icon: null },
+        { id: 1, key: 'Event', icon: null },
+        { id: 2, key: 'Out of Office', icon: null },
+        { id: 3, key: 'Task', icon: null },
+
+      ],
+    showFilter: false,
+    selectedFilter: 'All'
     }
   }
 
-  async componentDidMount() {
-
+  componentDidMount() {
   }
+
+  toggleShowFilter = () => {
+    const { showFilter } = this.state;
+    this.setState({ showFilter: !showFilter });
+  }
+
+  onSelectFilter = (value) => {
+    this.setState({ selectedFilter: value});
+    this.toggleShowFilter();
+  }
+
 
   onAddClick = () => {
     const { navigation } = this.props;
@@ -140,6 +172,19 @@ class AllEvents extends Component<AllEventsProps, AllEventsState> {
     )
   }
 
+  renderFiltersModal = () => {
+    const { filterOptions, showFilter } = this.state;
+    return (
+      <MoreOptionsModal
+        select={this.onSelectFilter}
+        moreOptions={filterOptions}
+        modalVisible={showFilter}
+        close={this.toggleShowFilter}
+        title='Filter'
+      />
+    )
+  }
+
   renderTabs = () => {
     const { selectedTab } = this.state;
     return (
@@ -179,15 +224,16 @@ class AllEvents extends Component<AllEventsProps, AllEventsState> {
 
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <SmallButton
-              //icon={images.addCalendar}
-              color={colors.tealBlue}
-              onPress={this.onAddClick}
+              icon={images.filter}
+              color={colors.white}
+              onPress={this.toggleShowFilter}
+              showBorder={true}
             >
-              <Text style={styles.buttonText}>Add</Text>
+              <Text style={styles.whiteButtonText}>Filter</Text>
             </SmallButton>
 
             <SmallButton
-              //icon={images.addCalendar}
+              icon={images.add}
               color={colors.tealBlue}
               onPress={this.onAddClick}
             >
@@ -200,11 +246,12 @@ class AllEvents extends Component<AllEventsProps, AllEventsState> {
         </View>
 
         <View style={styles.flexOne}>
-        {this.renderEvents()}
+          {this.renderEvents()}
         </View>
         {/* {selectedTab === 0 ? this.renderAllEvents() : this.renderCalendarEvents()} */}
 
         {this.renderTabs()}
+        {this.renderFiltersModal()}
 
 
 
