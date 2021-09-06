@@ -7,7 +7,8 @@ import {
   View,
   Text,
   StyleSheet,
-  Dimensions
+  Dimensions,
+  Platform
 } from 'react-native';
 import styles from './styles';
 import images from '../../../images';

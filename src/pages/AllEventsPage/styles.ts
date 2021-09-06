@@ -70,6 +70,10 @@ export const styles = StyleSheet.create({
     ...font(16, 'Semibold'),
     color: colors.white
   },
+  whiteButtonText: {
+    ...font(16, 'Semibold'),
+    color: colors.brownGray
+  },
   flexOne: {
     flex: 1
   }
