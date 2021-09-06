@@ -34,7 +34,8 @@ export const DateModal = (props: Props) => {
     close,
     date,
     title = 'Select Time',
-    onChange
+    onChange,
+    onClose
   } = props;
   return (
     <Modal style={dms.container} isVisible={modalVisible}>
@@ -48,7 +49,13 @@ export const DateModal = (props: Props) => {
         <DateTimePicker
           mode="date"
           value={date}
-          onChange={onChange}
+          onChange={(e, d) => {
+            if (Platform.OS === 'ios') {
+              onChange(e, d);
+            } else {
+              onClose(d);
+            }
+          }}
           //onDateChange={dateValue => props.select(dateValue)}
           style={dms.pickerStyle}
         />
@@ -83,11 +90,11 @@ export const TimePickerModal = (props: Props) => {
           is24Hour={false}
           onChange={(e, d) => {
             if (Platform.OS === 'ios') {
-              onChange(e,d);
+              onChange(e, d);
             } else {
-          onClose(d);
+              onClose(d);
             }
-         }}
+          }}
 
           style={dms.pickerStyle}
         />

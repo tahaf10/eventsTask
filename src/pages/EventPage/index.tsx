@@ -101,6 +101,14 @@ function Event(props: AllEventsProps) {
         modalVisible={showDateModal}
         date={date}
         close={toggleDatePickerModal}
+        onClose={date => {
+          if (date && Platform.OS !== 'iOS') {
+            setShowDateModal(false);
+            onTimeChange('random', date)
+          } else {
+            setShowDateModal(false);
+          }
+        }}
         onChange={(event, date) => setDate(date)}
       />
     )
