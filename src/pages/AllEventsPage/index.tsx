@@ -168,16 +168,16 @@ class AllEvents extends Component<AllEventsProps, AllEventsState> {
     const { selectedTab } = this.state;
     return (
 
-      <View style={{ flex: 1, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
+      <View style={styles.mainContainer}>
         <Header title='Dynamic Text' leftIcon={true} />
 
-        <View style={{ flexDirection: 'row', marginVertical: 10, marginHorizontal: 10 }}>
+        <View style={styles.topRowView}>
 
-          <View style={{ flex: 1, justifyContent: 'center' }}>
+          <View style={styles.topRowLeftHalf}>
             <Text style={{ textAlign: 'left' }}>New Event :</Text>
           </View>
 
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View style={styles.topRowEventButtons}>
             <SmallButton
               //icon={images.addCalendar}
               color={colors.tealBlue}

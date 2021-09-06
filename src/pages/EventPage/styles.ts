@@ -23,13 +23,22 @@ const CalendarInfoStyle = StyleSheet.create({
     paddingLeft: 15
   },
   headerText: {
-    ...font(14, 'Bold'),
-    color: colors.brownGray,
+    ...font(19, 'Bold'),
+    color: colors.black,
+    textAlign:'center',
+    marginVertical:10,
+    marginBottom:20
   },
   optionContainer: {
     width: '95%',
-    paddingBottom: 20,
-    marginTop: 10
+    paddingVertical: 20,
+    paddingHorizontal:10,
+    borderRadius:5,
+    backgroundColor:'#f0f0f0',
+    marginVertical:5
+  
+    
+
   },
   // optionContainerWithRightCmpnt: {
   //   flexDirection: 'row',
@@ -51,8 +60,9 @@ const CalendarInfoStyle = StyleSheet.create({
   //   marginLeft: 5
   // },
   optionTitle: {
-    ...font(16, 'Semibold'),
-    color: colors.black
+    ...font(17, 'Semibold'),
+    color: colors.black,
+    marginBottom:5
   },
   // optionText: {
   //   ...font(16),
@@ -88,9 +98,18 @@ const CalendarInfoStyle = StyleSheet.create({
   //   width: getWidthPercentage(75),
   //   borderRadius: 5,
   // },
+
+  centerAlignMarginVert:{
+    justifyContent:'center',
+    alignItems:'center',
+    marginVertical:10
+  },
+
   optionsRow: {
+  
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
+
   },
   // textAreaContainer: {
   //   width: '95%',

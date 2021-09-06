@@ -19,7 +19,7 @@ const dropdownStyles = StyleSheet.create({
     borderColor: colors.veryLightPink
   },
   labelText: {
-    ...font(15, 'Semibold'),
+    ...font(17, 'Semibold'),
     color: colors.black
   },
   valueText: {

@@ -9,7 +9,7 @@ const halfSelectStyles = StyleSheet.create({
     marginHorizontal:10
   },
   mainContainer: {
-    width: getWidthPercentage(50),
+    width: getWidthPercentage(90),
     height: getHeightPercentage(9),
     flexDirection: 'row',
     paddingHorizontal: 25,

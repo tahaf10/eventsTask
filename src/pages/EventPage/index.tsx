@@ -3,11 +3,13 @@ import {
   View,
   Text,
   ScrollView,
-  TextInput
+  TextInput,
+  
 } from 'react-native';
 import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import HalfSelect from '../../common/components/HalfSelect';
+import FullSelect from '../../common/components/FullSelect';
 import Dropdown from '../../common/components/Dropdown';
 import styles from './styles';
 import {
@@ -15,7 +17,13 @@ import {
   TimePickerModal,
   MoreOptionsModal
 } from '../../common/components/Widgets/ModalWidgets'
-
+import {
+  LargeButton 
+} from '../../common/components/Widgets/ButtonWidgets'
+import {
+  Header
+} from '../../common/components/Widgets/HeaderWidgets'
+import colors from '../../common/colors';
 
 
 
@@ -106,7 +114,11 @@ function Event(props) {
   }
 
   return (
-    <ScrollView
+
+    <View style={{flex:1}}>
+
+      <Header title='New Event' leftIcon={true}/>
+        <ScrollView
       style={styles.background}
       showsVerticalScrollIndicator={false}
     >
@@ -116,8 +128,10 @@ function Event(props) {
           <View style={styles.optionContainer}>
             <Text style={styles.optionTitle}>Event Name</Text>
             <TextInput
+            style={{color:colors.black}}
               value={eventName}
               placeholder={'Event Name'}
+              placeholderTextColor={colors.gray}
               onChangeText={setEventName}
               //style={styles.textArea}
               multiline={false}
@@ -127,8 +141,10 @@ function Event(props) {
           <View style={styles.optionContainer}>
             <Text style={styles.optionTitle}>Event Description</Text>
             <TextInput
+            style={{color:colors.black}}
               value={eventDescription}
               placeholder={'Event Description'}
+              placeholderTextColor={colors.gray}
               onChangeText={setEventDescription}
               //style={styles.textArea}
               multiline={true}
@@ -138,7 +154,7 @@ function Event(props) {
           <View style={styles.optionContainer}>
             {/* <Text style={styles.optionTitle}>Event Type</Text> */}
             <Dropdown
-              label='Event Type'
+              label='Type'
               value={selectedEventType}
               onPress={toggleTypesModal}
             />
@@ -147,12 +163,19 @@ function Event(props) {
           <View style={styles.optionContainer}>
             <Text style={styles.optionTitle}>Date Picker</Text>
             <TextInput
+            style={{color:colors.black}}
               value={eventDescription}
               placeholder={'Event Description'}
+              placeholderTextColor={colors.gray}
               onChangeText={setEventDescription}
               //style={styles.textArea}
               multiline={true}
             />
+            <FullSelect
+                value={moment(date).format('DD-MM-YYYY')}
+                label='Date'
+                onPress={() => {}}
+              />
           </View>
 
           <View style={styles.optionContainer}>
@@ -173,22 +196,21 @@ function Event(props) {
             </View>
           </View>
 
-          <View style={styles.optionContainer}>
-            <Text style={styles.optionTitle}>Doc Picker</Text>
-            <TextInput
-              value={eventDescription}
-              placeholder={'Event Description'}
-              onChangeText={setEventDescription}
-              //style={styles.textArea}
-              multiline={true}
-            />
-          </View>
-
+          <View style={styles.centerAlignMarginVert}>
+          <LargeButton
+              //icon={images.addCalendar}
+              color={colors.tealBlue}
+              onPress={()=>{}}
+          >
+              <Text>Next</Text>
+            </LargeButton>
+        </View>
         </View>
       </View>
       {renderTimePicker()}
       {renderEventTypeModal()}
     </ScrollView>
+    </View>
 
   )
 

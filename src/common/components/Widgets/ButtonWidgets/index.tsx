@@ -53,7 +53,7 @@ export const LargeButton = (props : smallButtonProps) => {
     <TouchableOpacity
       onPress={onPress}
       style={[
-        sbs.buttonContainer,
+        sbs.largeButtonContainer,
         { backgroundColor: color },
         showBorder ? sbs.borderBlack : null
       ]}

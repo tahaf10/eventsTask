@@ -12,8 +12,6 @@ import {
 import styles from './styles';
 import images from '../../../images';
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 export const Header = (props) => {
 
   const { leftIcon } = props;
@@ -21,20 +19,20 @@ export const Header = (props) => {
   return (
 
     <View style={styles.header}>
-      <SafeAreaView style={{flexDirection:'row'}}>
-      {leftIcon ? (<View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+      <SafeAreaView style={styles.safeArea}>
+      {leftIcon ? (<View style={styles.leftIcon}>
         <Image source={images.whiteCross}/>
       </View>) : 
       
-      (<View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+      (<View style={styles.withoutLeftIcon}>
       </View>)
       }
 
-      <View style={{flex:5,justifyContent:'center',alignItems:'center'}}>
+      <View style={styles.titleContainer}>
       <Text style={styles.text}>{props.title}</Text>
       </View>
 
-      <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+      <View style={styles.fix}>
       
       </View>
       </SafeAreaView>

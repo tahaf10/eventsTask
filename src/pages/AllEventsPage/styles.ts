@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import colors from '../../common/colors';
 import { font } from '../../common/styles';
-import { getHeightPercentage } from '../../common/helper'; 
+import { getHeightPercentage } from '../../common/helper';
 
 export const styles = StyleSheet.create({
   container: {
@@ -12,6 +12,29 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 20,
     //marginBottom: getHeightPercentage(10)
+  },
+  mainContainer: {
+    flex: 1,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center'
+
+  },
+
+  topRowView: {
+    flexDirection: 'row',
+    marginVertical: 10,
+    marginHorizontal: 10
+  },
+
+  topRowLeftHalf: {
+    flex: 1,
+    justifyContent: 'center'
+  },
+
+  topRowEventButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   tabsContainer: {
     flexDirection: 'row',
